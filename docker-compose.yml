@@ -1,0 +1,43 @@
+volumes:
+  todo-data:
+    external: true
+services:
+  database:
+    image: postgres:14.2-bullseye
+    volumes:
+      - todo-data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES=todo
+      - POSTGRES_PASSWORD=test-databases
+    ports:
+      - 15432:5432
+
+  api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app
+    depends_on:
+      - database
+    environment:
+      DATABASE_URL: postgres://todo:password@database:5432/todo
+      WAIT_HOSTS: database:5432
+      WAIT_TIMEOUT: 240
+  ghi:
+    build:
+      context: ./ghi
+      dockerfile: ./Dockerfile.dev
+    volumes:
+      - ./ghi:/app
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_HOST: http://localhost:8000
+      REACT_APP_WS_HOST: ws://localhost:8000
+      WAIT_HOSTS: api:8000
+      WAIT_BEFORE: 5
+      WAIT_TIMEOUT: 60
