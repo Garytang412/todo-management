@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-m7#fesh8aix4ma_b)c)_$4n@z42$^701__ipsbz3ihivmzfmh^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -73,10 +73,15 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# Here Database information please use ENV to hide. I will not hide here.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql', 
+        'NAME': 'todo',
+        'USER':'postgres',
+        'PASSWORD':'test-databases',
+        'HOST':'database',
+        'PORT':'5432',
     }
 }
 
