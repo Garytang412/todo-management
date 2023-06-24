@@ -2,13 +2,23 @@ volumes:
   todo-data:
     external: true
 services:
+  # database:
+  #   image: postgres:14.2-bullseye
+  #   volumes:
+  #     - todo-data:/var/lib/postgresql/data
+  #     - ./db:/docker-entrypoint-initdb.d
+  #   environment:
+  #     POSTGRES_DB: todo
+  #     POSTGRES_PASSWORD: example
+  #   ports:
+  #     - "5432:5432"
   database:
-    image: postgres:14.2-bullseye
+    image: postgres
     volumes:
       - todo-data:/var/lib/postgresql/data
-      - ./db:/docker-entrypoint-initdb.d
+      - ./db/setup:/docker-entrypoint-initdb.d
     environment:
-      - POSTGRES_MULTIPLE_DATABASES=todo
+      - POSTGRES_MULTIPLE_DATABASES=accounts, todos
       - POSTGRES_PASSWORD=test-databases
     ports:
       - 15432:5432
