@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-m7#fesh8aix4ma_b)c)_$4n@z42$^701__ipsbz3ihivmzfmh^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# here allow all hosts, DO NOT ALLOW ALL OR * IN REAL PROJECT!
+CORS_ORIGIN_ALLOW_ALL = True 
 ALLOWED_HOSTS = ["*"]
 
 
@@ -37,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders', # django cors app
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
@@ -47,6 +51,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',    # cors setting
+    'django.middleware.common.CommonMiddleware', # cors setting
 ]
 
 ROOT_URLCONF = 'todo.urls'
