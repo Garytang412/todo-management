@@ -5,14 +5,13 @@
 ##### design:
     - id
     - email
-    - username
+    - username = email
     - password
     - - created_at
-##### api:
-    - POST: 新建用户
-    - GET:  登录
-    - ???:  注销
-    - ???:  更改密码等
+##### api: /account/
+    - POST:  signup/
+    - POST:  login/
+    - GET:  logout/
 
 ---
 #### Group:
