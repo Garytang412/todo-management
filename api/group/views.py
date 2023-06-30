@@ -1,24 +1,32 @@
-
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+from group.models import Group
+import json
+from .encoders import GroupListEncoder,GroupDetailEncoder
 
 
 
 # /groups/   POST, GET
+@csrf_exempt
+@require_http_methods(['GET','POST'])
 def group_list_view(request):
-    '''
-    login needed : request.user 
 
-    1. POST:
-        title, user(fk)
-        create 
-        return
-
-    2. GET
-        list all the groups from request.user
-        Group.objects.filter(user=user)
-        return
-
-    '''
-    pass
+    user = request.user
+    user_id = user.id
+    if user is not None:
+        if request.method == "GET": # GET
+            groups = Group.objects.filter(user=user)
+            return JsonResponse({'groups':groups},encoder=GroupListEncoder,safe=False) #encoder=None, safe=False
+        else: # POST
+            content = json.loads(request.body)
+            content['user'] = user
+            new_group = Group.objects.create(**content)
+            return JsonResponse(new_group,encoder=GroupDetailEncoder,safe=False)
+    else:
+        return JsonResponse({'error':'User is not logged in!'})
+    
 
 
 # /groups/<int:group_id>/ GET, PUT, DELETE

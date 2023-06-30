@@ -24,8 +24,8 @@ def signup_view(request):
 @require_http_methods(['POST'])
 def login_view(request):  
     content = json.loads(request.body)
-    username = content.get('email')
-    password = content.get('password')
+    username = content.get('email') or content.get('username')
+    password = content.get('password') 
     user = authenticate(request,username=username,password=password)
     if user is not None:
         login(request,user)
