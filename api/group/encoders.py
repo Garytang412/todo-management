@@ -54,7 +54,12 @@ class DateTimeEncoder(JSONEncoder):
         
 class GroupListEncoder(ModelEncoder):
     model = Group
-    properties = ['id','title','create_at']
+    properties = [
+        'id',
+        'title',
+        'create_at',
+        'updated_at',
+    ]
 
 class GroupDetailEncoder(ModelEncoder):
     model = Group
