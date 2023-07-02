@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders', # django cors app
     'account.apps.AccountConfig',
     'group.apps.GroupConfig',
+    'list.apps.ListConfig',
 ]
 
 MIDDLEWARE = [
